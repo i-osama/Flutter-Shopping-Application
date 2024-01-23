@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shop_application/global_variable.dart';
+import 'package:shop_application/product_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -8,7 +10,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<String> filters = ["All", "Adidas", "Naiki", "Puma", "ABC"];
+  final List<String> filters = ["All", "Adidas", "Nike", "Puma", "ABC"];
 
   late String selectedFilter;
 
@@ -90,7 +92,15 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   }),
-            )
+            ),
+            // ----------=-=--=-=-=- Produact list view
+            Expanded(
+                child: ListView.builder(
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      return const ProductCard(
+                          title: "Jonny's shoe", price: 44.25);
+                    }))
           ],
         ),
       ),
