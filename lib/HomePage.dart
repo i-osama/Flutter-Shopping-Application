@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final List<String> filters = ["All", "Adidas", "Naiki", "Puma", "ABC"];
+
+  late String selectedFilter;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedFilter = filters[0];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,14 +26,6 @@ class HomePage extends StatelessWidget {
         left: Radius.circular(35),
       ),
     );
-
-    final List<String> filters = const [
-      "All",
-      "Adidas",
-      "Naiki",
-      "Puma",
-      "ABC"
-    ];
 
     return Scaffold(
       body: SafeArea(
@@ -56,19 +63,30 @@ class HomePage extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: filters.length,
                   itemBuilder: (context, index) {
+                    final filter = filters[index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Chip(
-                        label: Text(filters[index],
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.normal)),
-                        elevation: 10,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 10),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        side: const BorderSide(
-                            color: Color.fromARGB(255, 223, 219, 219)),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedFilter = filter;
+                          });
+                        },
+                        child: Chip(
+                          backgroundColor: selectedFilter == filter
+                              ? Theme.of(context).colorScheme.primary
+                              : const Color.fromARGB(255, 223, 219, 219),
+                          label: Text(filters[index],
+                              style: const TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.normal)),
+                          elevation: 10,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          side: const BorderSide(
+                              color: Color.fromARGB(255, 223, 219, 219)),
+                        ),
                       ),
                     );
                   }),
