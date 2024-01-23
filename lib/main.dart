@@ -9,9 +9,13 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: "Our Shop",
-      home: HomePage(),
+      theme: ThemeData(
+          fontFamily: 'Poppins',
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Color.fromARGB(255, 7, 185, 205))),
+      home: const HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
