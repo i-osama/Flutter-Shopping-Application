@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shop_application/HomePage.dart';
-import 'package:shop_application/global_variable.dart';
-import 'package:shop_application/product_details_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,9 +35,7 @@ class MyApp extends StatelessWidget {
               bodySmall: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
 
       // home: const HomePage(),
-      home: ProductDetailsPage(
-        product: products[2],
-      ),
+      home: const HomePage(),
 
       debugShowCheckedModeBanner: false,
     );
