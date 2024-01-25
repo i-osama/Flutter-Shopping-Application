@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_application/provider_cart.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final Map<String, Object> product;
@@ -10,6 +12,10 @@ class ProductDetailsPage extends StatefulWidget {
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
   late int selectedSize = 0;
+  // void onTap() {
+  //   Provider.of<CartProvider>(context, listen: false)
+  //       .addProduct(widget.product);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +98,34 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (selectedSize != 0) {
+                            Provider.of<CartProvider>(context, listen: false)
+                                .addProduct({
+                              'id': widget.product['id'],
+                              'title': widget.product['title'],
+                              'price': widget.product['price'],
+                              'imageUrl': widget.product['imageUrl'],
+                              'company': widget.product['company'],
+                              'size': selectedSize
+                            });
+
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                                    content: Text(
+                              "Product added successfully!",
+                              style: TextStyle(color: Colors.green),
+                            )));
+                          } else {
+                            //  ***************************************
+                            //   Scaffold Messenger/ Bottom notification bar
+                            //  ***************************************
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text("Please select a size first!")));
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           elevation: 2,
                           backgroundColor: Theme.of(context).primaryColor,
