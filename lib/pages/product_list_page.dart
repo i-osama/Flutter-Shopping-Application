@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_application/global_variable.dart';
-import 'package:shop_application/product_card.dart';
-import 'package:shop_application/product_details_page.dart';
+import 'package:shop_application/widgets/product_card.dart';
+import 'package:shop_application/pages/product_details_page.dart';
 
 class ProductListPage extends StatefulWidget {
   const ProductListPage({super.key});
@@ -23,6 +23,8 @@ class _ProductListPageState extends State<ProductListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     const border = OutlineInputBorder(
       borderSide: BorderSide(color: Color.fromARGB(255, 119, 112, 112)),
       borderRadius: BorderRadius.horizontal(
@@ -96,28 +98,62 @@ class _ProductListPageState extends State<ProductListPage> {
           ),
           // ----------=-=--=-=-=- Produact list view
           Expanded(
-              child: ListView.builder(
-                  itemCount: products.length,
-                  itemBuilder: (context, index) {
-                    final product = products[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) {
-                            return ProductDetailsPage(product: product);
-                          },
-                        ));
-                      },
-                      child: ProductCard(
-                        title: product['title'] as String,
-                        price: product['price'] as double,
-                        image: product['imageUrl'] as String,
-                        color: index.isEven
-                            ? const Color.fromARGB(255, 217, 230, 228)
-                            : const Color.fromARGB(255, 215, 244, 240),
-                      ),
-                    );
-                  }))
+            // *******************************************************************
+            // ---------- Making Responsive
+            // Here I am using ternary operator to handle the long screen situation
+            // Listview and Gridview both have been used
+            // *******************************************************************
+            child: size.width < 650
+                ? ListView.builder(
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      final product = products[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) {
+                              return ProductDetailsPage(product: product);
+                            },
+                          ));
+                        },
+                        child: ProductCard(
+                          title: product['title'] as String,
+                          price: product['price'] as double,
+                          image: product['imageUrl'] as String,
+                          color: index.isEven
+                              ? const Color.fromARGB(255, 217, 230, 228)
+                              : const Color.fromARGB(255, 215, 244, 240),
+                        ),
+                      );
+                    })
+                : GridView.builder(
+                    itemCount: products.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.82,
+                    ),
+                    itemBuilder: (context, index) {
+                      final product = products[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) {
+                              return ProductDetailsPage(product: product);
+                            },
+                          ));
+                        },
+                        child: ProductCard(
+                          title: product['title'] as String,
+                          price: product['price'] as double,
+                          image: product['imageUrl'] as String,
+                          color: index.isEven
+                              ? const Color.fromARGB(255, 217, 230, 228)
+                              : const Color.fromARGB(255, 215, 244, 240),
+                        ),
+                      );
+                    }),
+          )
         ],
       ),
     );
