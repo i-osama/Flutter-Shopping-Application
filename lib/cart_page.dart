@@ -25,7 +25,46 @@ class CartPage extends StatelessWidget {
               ),
               trailing: IconButton(
                 onPressed: () {
-                  print("delete pressed");
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Delete Product?"),
+                        content: const Text(
+                            "Are you sure you want to delete this product from the cart?"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              // ---------------------------------------
+                              // Handling "NO" button pressed action
+                              // ---------------------------------------
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              "No",
+                              style: TextStyle(color: Colors.blue[600]),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              // ---------------------------------------
+                              // Handling "Yes" button pressed action
+                              // ---------------------------------------
+
+                              Provider.of<CartProvider>(context, listen: false)
+                                  .deleteProduct(cartItem);
+
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              "Yes",
+                              style: TextStyle(color: Colors.red[600]),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
                 icon: const Icon(
                   Icons.delete,

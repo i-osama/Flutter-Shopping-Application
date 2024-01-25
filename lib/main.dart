@@ -11,8 +11,8 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => CartProvider(),
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (context) => CartProvider())],
       child: MaterialApp(
         title: "Our Shop",
         theme: ThemeData(
