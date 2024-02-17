@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:shop_application/global_variable.dart';
 import 'package:shop_application/widgets/product_card.dart';
 import 'package:shop_application/pages/product_details_page.dart';
@@ -23,7 +24,7 @@ class _ProductListPageState extends State<ProductListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
 
     const border = OutlineInputBorder(
       borderSide: BorderSide(color: Color.fromARGB(255, 119, 112, 112)),
@@ -99,12 +100,17 @@ class _ProductListPageState extends State<ProductListPage> {
           // ----------=-=--=-=-=- Produact list view
           Expanded(
             // *******************************************************************
-            // ---------- Making Responsive
-            // Here I am using ternary operator to handle the long screen situation
-            // Listview and Gridview both have been used
-            // *******************************************************************
-            child: size.width < 650
-                ? ListView.builder(
+            //   // ---------- Making Responsive ---------
+            //   // ############ Also we can use "Media Query" to handle the responsiveness
+            //   // Here I am using Layoutbuilder to handle responsiveness
+            //   // Listview and Gridview both have been used
+            //   // *******************************************************************
+            child: LayoutBuilder(builder: (context, constraints) {
+              final myGridAspectRation =
+                  constraints.maxWidth < 1010 ? 1.82 : 2.35;
+
+              if (constraints.maxWidth < 650) {
+                return ListView.builder(
                     itemCount: products.length,
                     itemBuilder: (context, index) {
                       final product = products[index];
@@ -125,13 +131,13 @@ class _ProductListPageState extends State<ProductListPage> {
                               : const Color.fromARGB(255, 215, 244, 240),
                         ),
                       );
-                    })
-                : GridView.builder(
+                    });
+              } else {
+                return GridView.builder(
                     itemCount: products.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 1.82,
+                      childAspectRatio: myGridAspectRation,
                     ),
                     itemBuilder: (context, index) {
                       final product = products[index];
@@ -152,8 +158,22 @@ class _ProductListPageState extends State<ProductListPage> {
                               : const Color.fromARGB(255, 215, 244, 240),
                         ),
                       );
-                    }),
+                    });
+              }
+            }),
           )
+
+          // -----------------------------------------------------------------
+          // Expanded(
+          //   // *******************************************************************
+          //   // ---------- Making Responsive
+          //   // Here I am using ternary operator to handle the long screen situation
+          //   // Listview and Gridview both have been used
+          //   // *******************************************************************
+          //   child: size.width < 650
+          //       ?
+          //       :,
+          // )
         ],
       ),
     );

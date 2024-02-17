@@ -19,6 +19,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final currentDevieSize = MediaQuery.of(context).size; // For responsiveness
+
     final primColor = Theme.of(context).primaryColor;
     return Scaffold(
       appBar: AppBar(
@@ -129,7 +131,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         style: ElevatedButton.styleFrom(
                           elevation: 2,
                           backgroundColor: Theme.of(context).primaryColor,
-                          minimumSize: const Size(double.infinity, 50),
+                          // **************************** Handled the device responsiveness here ***********************
+                          minimumSize: Size(
+                              currentDevieSize.width < 65
+                                  ? double.infinity
+                                  : 350,
+                              50),
                         ),
                         child: const Text(
                           "Add to cart",
